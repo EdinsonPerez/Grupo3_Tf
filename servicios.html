@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Servicios</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body>
+  <nav>
+    <div class="logo">
+        <a href="./index.html">
+            <img src="./imagen/goodSale-logoB-01.png" alt="Logo">
+        </a>
+        <h1>Un mundo por descubrir</h1>
+    </div>
+    <div class="burger">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="./index.html">Inicio</a></li>
+        <li><a href="./sobrenosotros.html">Sobre Nosotros</a></li>
+        <li><a href="./servicios.html">Servicios</a></li>
+        <li><a href="./registro.html">Regístrese</a></li>
+        <li><a href="./sucursales.html">Sucursales</a></li>
+    </ul>
+</nav>
+
+  <section id="portada">
+    <img class="pic-port" src="./imagen/portada3.jpeg" alt="Foto portada">
+  </section>
+
+  <button id="modo-oscuro">Modo Oscuro</button>
+
+  <div class="container-servicio">
+    <div class="form-container">
+      <h2 class="text">Consulta de Precios</h2>
+      <form id="quotation-form" >
+        <label for="start-date">Fecha de inicio:</label>
+        <input type="date" id="start-date" name="start-date" required>
+
+        <label for="end-date">Fecha de fin:</label>
+        <input type="date" id="end-date" name="end-date" required>
+
+        <label for="num-people">Número de personas:</label>
+        <input type="number" id="num-people" name="num-people" required>
+
+        <label for="selected-package">Paquete turístico:</label>
+
+        <select id="selected-package" name="selected-package" required>
+          <option value="">Seleccionar paquete</option>
+          <option value="Nauru">Nauru</option>
+          <option value="Guadeloupe">Guadeloupe</option>
+          <option value="Bolivia">Bolivia</option>
+          <option value="South Korea">South Korea</option>
+        </select>
+        
+
+        <button type="submit">Obtener cotización</button>
+
+        <div id="quotation-result"></div>
+
+        <h3>Muchas gracias!</h3>
+        
+      </form>
+
+    </div>
+
+    <div class="Servicios">
+      <h2 class="text">Servicios Incluidos</h2>
+      <ul>
+        <li>Pasajes aéreos DIRECTOS de ida y vuelta</li>
+        <li>Equipaje de mano</li>
+        <li>Traslados IN/OUT</li>
+        <li>Alojamiento 7 noches en Hotel</li>
+        <li>All inclusive</li>
+      </ul>
+    </div>
+  </div>
+  <script src="script.js"></script>
+
+  <footer>
+    <a class="redsoc" href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.whatsapp.com" target="_blank"><i class="fab fa-whatsapp"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.pinterest.com" target="_blank"><i class="fab fa-pinterest"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"
+        aria-hidden="true"></i></a>
+
+
+    <br>
+    <p>Grupo # 3 Derechos reservados @2023</p>
+    <br>
+  </footer>
+  
+</body>
+
+</html>
