@@ -5,6 +5,7 @@ import mysql.connector
 from werkzeug.utils import secure_filename
 
 class Registro:
+    registro = []
     def __init__(self, host, user, password, database):
         self.conn = mysql.connector.connect(
             host=host,
@@ -12,7 +13,7 @@ class Registro:
             password=password,
             database=database
         )
-        self.cursor = self.conn.cursor()
+        self.cursor = self.conn.cursor(dictionary=True)
 
         try:
             self.cursor.execute(f"USE {database}")
@@ -24,7 +25,7 @@ class Registro:
                 raise err
 
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS clientes (
-            dni INT NOT NULL,
+            dni INT,
             nombre VARCHAR(20) NOT NULL,
             apellido VARCHAR(20) NOT NULL,
             direccion VARCHAR(35) NOT NULL,
@@ -42,7 +43,7 @@ class Registro:
             return False
 
         sql = f"INSERT INTO clientes \
-                (dni, nombre, apellido, direccion, ciudad, cp, nac) \
+                (dni, nombre, apellido, direccion, ciudad, cp, nacimiento) \
                 VALUES \
                 ({dni}, '{nom}', '{ape}', '{dire}', '{ciu}', {cp} , {nac})"
         self.cursor.execute(sql)
@@ -51,17 +52,20 @@ class Registro:
 
     def mostrar_clientes(self):
         print("-"*40)
-        for cliente in self.listar_clientes():
-            print(f"Dni...........: {cliente['dni']}" )
-            print(f"Nombre........: {cliente['nombre']}" )
-            print(f"Apellido......: {cliente['apellido']}" )
-            print(f"Direccion.....: {cliente['direccion']}" )
-            print(f"Ciudad........: {cliente['ciudad']}" )
-            print(f"Cp............: {cliente['cp']}" )
-            print(f"Nacimiento....: {cliente['nacimiento']}" )
-            print("-"*40)
+        if not self.clientes:
+            print("sin cliente")
         else:
-            print("Cliente no encontrado.")
+            for cliente in self.listar_clientes():
+                print(f"Dni...........: {cliente['dni']}" )
+                print(f"Nombre........: {cliente['nombre']}" )
+                print(f"Apellido......: {cliente['apellido']}" )
+                print(f"Direccion.....: {cliente['direccion']}" )
+                print(f"Ciudad........: {cliente['ciudad']}" )
+                print(f"Cp............: {cliente['cp']}" )
+                print(f"Nacimiento....: {cliente['nacimiento']}" )
+                print("-"*40)
+            else:
+                print("Cliente no encontrado.")
 
     def listar_clientes(self):
         self.cursor.execute("SELECT * FROM clientes")
@@ -92,8 +96,8 @@ class Registro:
         return self.cursor.fetchone()
 
 # Crear instancia de la clase Registro después de su definición
-registro = Registro(host='localhost', user='root', password='', database='miapp')
-
+registro = Registro(host='localhost', user='root', password='', database='clientes')
+# registro.agregar_cliente(92154, "ana", "lopez", "costanera", "matanza", 1704, 120509) 
 # Crear la aplicación Flask fuera de la clase
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -154,5 +158,6 @@ def eliminar_cliente(dni):
     else:
         return jsonify({"mensaje": "Cliente no encontrado"}), 404
 #--------------------------------------------------------------------
+# registro.agregar_cliente(92154, "ana", "lopez", "costanera", "matanza", 1704, 120509) 
 if __name__ == "__main__":
     app.run(debug=True)
