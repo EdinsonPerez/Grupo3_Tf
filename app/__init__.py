@@ -85,7 +85,7 @@ class Registro:
                 direccion = '{dire}',\
                 ciudad = '{ciu}',\
                 cp = {cp},\
-                nac = {nac}\
+                nacimiento = {nac}\
                 WHERE dni = {dni}"
         self.cursor.execute(sql)
         self.conn.commit()
@@ -93,11 +93,18 @@ class Registro:
 
     def consultar_cliente(self, dni):
         self.cursor.execute(f"SELECT * FROM clientes WHERE dni = {dni}")
-        return self.cursor.fetchone()
+        # return self.cursor.fetchone()
+        cliente_exist = self.cursor.fetchone()
+        if cliente_exist:
+            return cliente_exist
 
 # Crear instancia de la clase Registro después de su definición
 registro = Registro(host='localhost', user='root', password='', database='clientes')
 # registro.agregar_cliente(92154, "ana", "lopez", "costanera", "matanza", 1704, 120509) 
+# print(registro.consultar_cliente(355898))
+# print(registro.modificar_cliente(35589088,"katy", "pinto", "jujuy", "la plata", 1600, 25121989))
+print(registro.eliminar_cliente(35589088))
+
 # Crear la aplicación Flask fuera de la clase
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
