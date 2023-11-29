@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de registro</title>
+
+    <script src="https://kit.fontawesome.com/d11b1428bd.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+
+<body>
+  <nav>
+    <div class="logo">
+        <a href="./index.html">
+          <img src="../static/imagen/goodSale-logoB-01.png" alt="Logo">
+        </a>
+        <h1>Un mundo por descubrir</h1>
+    </div>
+    <div class="burger">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="./index.html">Inicio</a></li>
+        <li><a href="./sobrenosotros.html">Sobre Nosotros</a></li>
+        <li><a href="./servicios.html">Servicios</a></li>
+        <li><a href="./registro.html">Regístrese</a></li>
+        <li><a href="./sucursales.html">Sucursales</a></li>
+    </ul>
+</nav>
+  
+  <button id="modo-oscuro">Modo Oscuro</button>
+
+  <menu>
+    <form class="formulario" action="show_data.html" target="_blank">
+      <!--Le dice a donde enviar los datos de mi página>-->
+      <h2>Formulario de registro</h2>
+      <label for="firstname">Nombre:</label> <input type="text" name="firstname"
+        placeholder="Ingrese su nombre aquí...">
+      <label for="lastname">Apellido:</label> <input type="text" name="lastname"
+        placeholder="Ingrese su apellido aquí...">
+      <label for="street">Dirección:</label> <input type="text" name="adress"
+        placeholder="Ingrese su dirección aquí...">
+      <label for="city">Ciudad:</label> <input type="text" name="city" value="C.A.B.A">
+      <label for="zipcode">Código postal:</label> <input type="text" name="zipcode" placeholder="Ingrese su CP aquí...">
+      <label for="BirdhDate">Fecha de nac.:</label> <input type="text" name="birthdate">
+      <p>Género
+        <input type="radio" name="gender" value="Hombre" checked>Hombre
+        <input type="radio" name="gender" value="Mujer" checked>Mujer
+        <input type="radio" name="gender" value="Otro" checked>Otro
+      </p>
+      <id id="comment" name="comment" cols="40" rows="8" maxlength="65525" required="required"
+        value="Agregue aquí su comentario..."></id>
+
+      <input type="submit" value="Enviar">
+      </p>
+    </form>
+    <p>Si usted hace click en el botón "Enviar", la información será enviada a la página "show_data.html".</p>
+  </menu>
+  </form>
+  </menu>
+  <div id="demo" class="carousel slide" data-ride="carousel">
+    <ul class="carousel-indicators">
+      <li data-target="#demo" data-slide-to="0" class="active"></li>
+      <li data-target="#demo" data-slide-to="1"></li>
+      <li data-target="#demo" data-slide-to="2"></li>
+    </ul>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../static/imagen/19662_master_cmr_2.jpg" alt="Punta Cana" width="100%" height="300px">
+        <div class="carousel-caption">
+          <h3>Miami</h3>
+          <p>Vení a divertirte a Miami!</p>
+          </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../static/imagen/19722_master_cmr.jpg" alt="Río de Janeiro" width="100%" height="300px">
+        <div class="carousel-caption">
+          <h3>Punta Cana</h3>
+          <p>Vení a disfrutar a Punta Cana!</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../static/imagen/19723_master_web2.png" alt="Miami" width="100%" height="300px">
+        <div class="carousel-caption">
+          <h3>Río de Janeiro</h3>
+          <p>Festejá fin de año en Brasil!</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#demo" data-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </a>
+  </div>
+  <br>
+  <footer>
+    <a class="redsoc" href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.whatsapp.com" target="_blank"><i class="fab fa-whatsapp"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.pinterest.com" target="_blank"><i class="fab fa-pinterest"
+        aria-hidden="true"></i></a>
+    <a class="redsoc" href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"
+        aria-hidden="true"></i></a>
+    <br>
+    <p>Grupo # 3 Derechos reservados @2023</p>
+    <br>
+  </footer>
+  <script>
+    $(document).ready(function () {
+      $('.carousel').carousel();
+    });
+  </script>
+  <script>
+
+    const modoOscuroButton = document.getElementById("modo-oscuro");
+    const body = document.body;
+
+    modoOscuroButton.addEventListener("click", function () {
+      body.classList.toggle("dark-mode");
+    });
+  </script>
+</body>
+
+</html>
