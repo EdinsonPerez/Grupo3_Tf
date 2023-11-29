@@ -1,20 +1,16 @@
 import mysql.connector
-from flask_cors import CORS
 from flask import Flask, request, jsonify
-from flask import request
+from flask_cors import CORS
+import mysql.connector
 from werkzeug.utils import secure_filename
 
-
-app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
-
 class Registro:
-
     def __init__(self, host, user, password, database):
         self.conn = mysql.connector.connect(
             host=host,
             user=user,
             password=password,
+            database=database
         )
         self.cursor = self.conn.cursor()
 
@@ -29,10 +25,10 @@ class Registro:
 
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS clientes (
             dni INT NOT NULL,
-            nombre VARCHAR(255) NOT NULL,
-            apellido VARCHAR(255) NOT NULL,
-            direccion VARCHAR(255) NOT NULL,
-            ciudad VARCHAR(255) NOT NULL,
+            nombre VARCHAR(20) NOT NULL,
+            apellido VARCHAR(20) NOT NULL,
+            direccion VARCHAR(35) NOT NULL,
+            ciudad VARCHAR(25) NOT NULL,
             cp INT,
             nacimiento INT)''')
         self.conn.commit()  
@@ -40,27 +36,22 @@ class Registro:
         self.cursor = self.conn.cursor(dictionary=True)   
 
     def agregar_cliente(self, dni, nom, ape, dire, ciu, cp, nac):
-     self.cursor.execute(f"SELECT * FROM clientes WHERE dni = {dni}")
-     cliente_exist = self.cursor.fetchone()
-     if cliente_exist:
-        return False
-     
-#      sql = "INSERT INTO clientes (dni, nombre, apellido, direccion, ciudad, cp, nac) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-# values = (dni, nom, ape, dire, ciu, cp, nac)
-# self.cursor.execute(sql, values)
+        self.cursor.execute(f"SELECT * FROM clientes WHERE dni = {dni}")
+        cliente_exist = self.cursor.fetchone()
+        if cliente_exist:
+            return False
 
-
-     sql = f"INSERT INTO clientes \
-            (dni, nombre, apellido, direccion, ciudad, cp, nac) \
-            VALUES \
-            ({dni}, '{nom}', '{ape}', '{dire}', '{ciu}', {cp} , {nac})"
-     self.cursor.execute(sql)
-     self.conn.commit()
-     return True                                    
+        sql = f"INSERT INTO clientes \
+                (dni, nombre, apellido, direccion, ciudad, cp, nac) \
+                VALUES \
+                ({dni}, '{nom}', '{ape}', '{dire}', '{ciu}', {cp} , {nac})"
+        self.cursor.execute(sql)
+        self.conn.commit()
+        return True                                    
 
     def mostrar_clientes(self):
         print("-"*40)
-        for cliente in self.clientes:
+        for cliente in self.listar_clientes():
             print(f"Dni...........: {cliente['dni']}" )
             print(f"Nombre........: {cliente['nombre']}" )
             print(f"Apellido......: {cliente['apellido']}" )
@@ -75,20 +66,20 @@ class Registro:
     def listar_clientes(self):
         self.cursor.execute("SELECT * FROM clientes")
         clientes = self.cursor.fetchall()
+        print(f"Clientes obtenidos de la base de datos: {clientes}")
         return clientes
-
 
     def eliminar_cliente(self, dni):
         self.cursor.execute(f"DELETE FROM clientes WHERE dni = {dni}")
         self.conn.commit()
         return self.cursor.rowcount > 0
-  
+
     def modificar_cliente(self, dni, nom, ape, dire, ciu, cp, nac):
         sql = f"UPDATE clientes SET \
                 nombre = '{nom}',\
                 apellido = '{ape}',\
                 direccion = '{dire}',\
-                cuidad = '{ciu}',\
+                ciudad = '{ciu}',\
                 cp = {cp},\
                 nac = {nac}\
                 WHERE dni = {dni}"
@@ -100,7 +91,12 @@ class Registro:
         self.cursor.execute(f"SELECT * FROM clientes WHERE dni = {dni}")
         return self.cursor.fetchone()
 
-registro = Registro('localhost','root','', 'miapp')
+# Crear instancia de la clase Registro después de su definición
+registro = Registro(host='localhost', user='root', password='', database='miapp')
+
+# Crear la aplicación Flask fuera de la clase
+app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route("/clientes", methods=["GET"])
 def listar_clientes():
@@ -112,7 +108,6 @@ def listar_clientes():
         print(f"Error al obtener clientes: {e}")
         return jsonify({"error": str(e)}), 500
 
-
 @app.route("/clientes", methods=["POST"])
 def agregar_cliente():
     try:
@@ -121,7 +116,7 @@ def agregar_cliente():
         nombre = data['nombre']
         apellido = data['apellido']
         direccion = data['direccion']
-        ciudad = data['ciudad']  # Corregido de 'cuidad' a 'ciudad'
+        ciudad = data['ciudad']  
         cp = data['cp']
         nacimiento = data['nacimiento']
 
@@ -139,17 +134,18 @@ def agregar_cliente():
 def modificar_cliente(dni):
     datos = request.form
     nueva_direccion = datos.get("direccion")
-    nueva_cuidad = datos.get("cuidad")
+    nueva_ciudad = datos.get("ciudad")  
     nuevo_cp = datos.get("cp")
 
-    if registro.modificar_cliente(dni,nueva_direccion, nueva_cuidad, nuevo_cp):
+    if registro.modificar_cliente(dni, nueva_direccion, nueva_ciudad, nuevo_cp):
         return jsonify({"mensaje": "Cliente modificado"}), 200
     else:
         return jsonify({"mensaje": "Cliente no encontrado"}), 404
+
     
 @app.route("/clientes/<int:dni>", methods=["DELETE"])
 def eliminar_cliente(dni):
-    cliente = registro.consultar_cliente(cliente)
+    cliente = registro.consultar_cliente(dni)
     if cliente:
         if registro.eliminar_cliente(dni):
             return jsonify({"mensaje": "Cliente eliminado"}), 200
