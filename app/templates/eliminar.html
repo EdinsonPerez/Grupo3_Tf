@@ -1,0 +1,32 @@
+<div id="admin-eliminar-formulario">
+    <!-- Aquí se encuentra el formulario para eliminar registros -->
+    <form id="eliminarForm">
+        <label for="dniEliminar">DNI a eliminar:</label>
+        <input type="text" name="dniEliminar" placeholder="Ingrese el DNI a eliminar" required>
+        <input type="submit" value="Eliminar">
+    </form>
+</div>
+
+function eliminarCliente() {
+    // Obtener DNI a eliminar
+    const dniEliminar = $("#eliminarForm input[name=dniEliminar]").val();
+
+    // Llamada a la API para eliminar el cliente
+    $.ajax({
+        type: "DELETE",
+        url: `/clientes/${dniEliminar}`,
+        success: function (data) {
+            // Actualizar la lista después de eliminar el cliente
+            cargarListaClientes();
+
+            console.log(data.mensaje);
+        },
+        error: function (error) {
+            console.error("Error al eliminar el cliente:", error);
+        }
+    });
+// Evento para manejar la eliminación de un cliente
+            $("#eliminarForm").submit(function (event) {
+                event.preventDefault();
+                eliminarCliente();
+            });

@@ -33,39 +33,66 @@
         <li><a href="./servicios.html">Servicios</a></li>
         <li><a href="./registro.html">Regístrese</a></li>
         <li><a href="./sucursales.html">Sucursales</a></li>
+        <li><a href="./admin-inicio.html">Admin</a></li>
     </ul>
 </nav>
   
   <button id="modo-oscuro">Modo Oscuro</button>
 
   <menu>
-    <form class="formulario" action="show_data.html" target="_blank">
-      <!--Le dice a donde enviar los datos de mi página>-->
+    <form id="formulario" class="formulario" enctype="multipart/form-data">
+            <!--Le dice a donde enviar los datos de mi página>-->
       <h2>Formulario de registro</h2>
-      <label for="firstname">Nombre:</label> <input type="text" name="firstname"
+      <label for="dni">DNI:</label> <input type="text" name="dni"
+        placeholder="Ingrese su dni aquí...">
+      <label for="nombre">Nombre:</label> <input type="text" name="nombre"
         placeholder="Ingrese su nombre aquí...">
-      <label for="lastname">Apellido:</label> <input type="text" name="lastname"
+      <label for="apellido">Apellido:</label> <input type="text" name="apellido"
         placeholder="Ingrese su apellido aquí...">
-      <label for="street">Dirección:</label> <input type="text" name="adress"
+      <label for="direccion">Dirección:</label> <input type="text" name="direccion"
         placeholder="Ingrese su dirección aquí...">
-      <label for="city">Ciudad:</label> <input type="text" name="city" value="C.A.B.A">
-      <label for="zipcode">Código postal:</label> <input type="text" name="zipcode" placeholder="Ingrese su CP aquí...">
-      <label for="BirdhDate">Fecha de nac.:</label> <input type="text" name="birthdate">
-      <p>Género
-        <input type="radio" name="gender" value="Hombre" checked>Hombre
-        <input type="radio" name="gender" value="Mujer" checked>Mujer
-        <input type="radio" name="gender" value="Otro" checked>Otro
-      </p>
-      <id id="comment" name="comment" cols="40" rows="8" maxlength="65525" required="required"
-        value="Agregue aquí su comentario..."></id>
+      <label for="ciudad">Ciudad:</label> <input type="text" name="ciudad" 
+      placeholder="Ingrese su Ciudad aquí..." >
+      <label for="cp">Código postal:</label> <input type="text" name="cp" placeholder="Ingrese su CP aquí...">
+      <label for="nacimiento">Fecha de nac.:</label> <input type="text" name="nacimiento">
+      
+      
+      <button type="submit">Agregar Producto</button>
+      <a href="index.html">Menu principal</a>
+      </form>
+      
+      <script>
+        const URL = "http://127.0.0.1:5000/";
+    
+        document.getElementById('formulario').addEventListener('submit', function (event) {
+    event.preventDefault();
 
-      <input type="submit" value="Enviar">
-      </p>
-    </form>
-    <p>Si usted hace click en el botón "Enviar", la información será enviada a la página "show_data.html".</p>
-  </menu>
-  </form>
-  </menu>
+    var formData = new FormData(this);
+
+    fetch(URL + 'clientes', {
+        method: 'POST',
+        body: formData
+    })
+    .then(function (response) {
+        if (response.ok) { return response.json(); }
+        throw new Error('Network response was not ok.');
+    })
+    .then(function (data) {
+        alert('Cliente agregado correctamente.');
+        document.getElementById('formulario').reset();
+    })
+    .catch(function (error) {
+        alert('Error al agregar el cliente: ' + error.message);
+    });
+});
+
+    </script>
+    
+      
+      
+
+    
+  
   <div id="demo" class="carousel slide" data-ride="carousel">
     <ul class="carousel-indicators">
       <li data-target="#demo" data-slide-to="0" class="active"></li>

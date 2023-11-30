@@ -1,9 +1,10 @@
 import mysql.connector
 from flask import Flask, request, jsonify
-from flask_cors import CORS
 import mysql.connector
 from werkzeug.utils import secure_filename
+from flask_cors import CORS
 
+app = Flask(__name__)
 class Registro:
     registro = []
     def __init__(self, host, user, password, database):
@@ -101,9 +102,9 @@ class Registro:
 # Crear instancia de la clase Registro después de su definición
 registro = Registro(host='localhost', user='root', password='', database='clientes')
 # registro.agregar_cliente(92154, "ana", "lopez", "costanera", "matanza", 1704, 120509) 
-# print(registro.consultar_cliente(355898))
-# print(registro.modificar_cliente(35589088,"katy", "pinto", "jujuy", "la plata", 1600, 25121989))
-print(registro.eliminar_cliente(35589088))
+# print(registro.consultar_cliente(92154))
+# print(registro.modificar_cliente(92154,"katy", "pinto", "jujuy", "la plata", 1600, 25121989))
+# print(registro.eliminar_cliente(92154))
 
 # Crear la aplicación Flask fuera de la clase
 app = Flask(__name__)
@@ -119,10 +120,30 @@ def listar_clientes():
         print(f"Error al obtener clientes: {e}")
         return jsonify({"error": str(e)}), 500
 
+# @app.route("/clientes", methods=["POST"])
+# def agregar_cliente():
+#     try:
+#         data = request.get_json()
+#         dni = data['dni']
+#         nombre = data['nombre']
+#         apellido = data['apellido']
+#         direccion = data['direccion']
+#         ciudad = data['ciudad']  
+#         cp = data['cp']
+#         nacimiento = data['nacimiento']
+
+#         if registro.agregar_cliente(dni, nombre, apellido, direccion, ciudad, cp, nacimiento):
+#             return jsonify({"mensaje": "Cliente agregado"}), 201
+#         else:
+#             return jsonify({"mensaje": "Cliente ya existe"}), 400
+
+#     except Exception as e:
+#         print(f"Error: {e}")
+#         return jsonify({"error": str(e)}), 400
 @app.route("/clientes", methods=["POST"])
 def agregar_cliente():
     try:
-        data = request.get_json()
+        data = request.form  # Puedes utilizar request.get_json() si estás enviando datos JSON
         dni = data['dni']
         nombre = data['nombre']
         apellido = data['apellido']
@@ -166,5 +187,11 @@ def eliminar_cliente(dni):
         return jsonify({"mensaje": "Cliente no encontrado"}), 404
 #--------------------------------------------------------------------
 # registro.agregar_cliente(92154, "ana", "lopez", "costanera", "matanza", 1704, 120509) 
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
 if __name__ == "__main__":
     app.run(debug=True)
