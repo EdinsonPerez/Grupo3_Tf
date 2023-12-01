@@ -4,112 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración</title>
+    <title>Modificar Registro</title>
 
-    <script src="https://kit.fontawesome.com/d11b1428bd.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/styles.css">
+    <!-- Enlaces a Bootstrap y otros estilos si es necesario -->
 
-    <!-- Agrega tu script de administración -->
-    <script src="../static/admin-script.js"></script>
+    <link rel="stylesheet" href="../static/listado.css"> <!-- Ajusta la ruta según tu estructura de archivos -->
 </head>
 
 <body>
     <nav>
-        <!-- ... Tu código de navegación ... -->
+        <!-- Coloca tu barra de navegación si la tienes -->
     </nav>
 
-    <div id="admin-lista-registros">
-        <!-- Aquí se mostrará la lista de registros -->
-    </div>
-
-    <div id="admin-formulario">
-        <!-- Aquí se encuentra el formulario para modificar registros -->
-        <form id="modificarForm">
-            <label for="dni">DNI:</label>
-            <input type="text" name="dni" placeholder="Ingrese el DNI" required>
-            <label for="direccion">Nueva Dirección:</label>
-            <input type="text" name="direccion" placeholder="Ingrese la nueva dirección">
-            <label for="ciudad">Nueva Ciudad:</label>
-            <input type="text" name="ciudad" placeholder="Ingrese la nueva ciudad">
-            <label for="cp">Nuevo CP:</label>
-            <input type="text" name="cp" placeholder="Ingrese el nuevo CP">
-            <input type="submit" value="Modificar">
-        </form>
-    </div>
-
     
-    <!-- ... Otro contenido HTML ... -->
+
+    <div class="container">
+        <h2>Modificar Registro</h2>
+        <form id="formulario-modificar">
+            <label for="dni">DNI:</label>
+            <input type="text" id="dni" name="dni" placeholder="Ingrese el DNI a modificar...">
+            <label for="direccion">Nueva Dirección:</label>
+            <input type="text" id="direccion" name="direccion" placeholder="Ingrese la nueva dirección...">
+            <label for="ciudad">Nueva Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" placeholder="Ingrese la nueva ciudad...">
+            <label for="cp">Nuevo Código Postal:</label>
+            <input type="text" id="cp" name="cp" placeholder="Ingrese el nuevo código postal...">
+            <button type="submit">Modificar Registro</button>
+        </form>
+        <div id="resultado-modificacion"></div>
+    </div>
 
     <footer>
-        <!-- ... Tu código de pie de página ... -->
+        <!-- Coloca tu pie de página si lo tienes -->
     </footer>
 
-    <script>
-        $(document).ready(function () {
-            // Al cargar la página, cargar la lista de registros
-            listar_clientes();
-
-            // Evento para manejar la modificación de un cliente
-            $("#modificarForm").submit(function (event) {
-                event.preventDefault();
-                modificar_cliente();
-            });
-
-            
-        });
-
-        function cargarListaClientes() {
-            // Llamada a la API para obtener la lista de clientes
-            $.get("/clientes", function (data) {
-                // Actualizar el contenido del contenedor de la lista de clientes
-                $("#admin-lista-registros").html(generarListaHTML(data.clientes));
-            });
-        }
-
-        function modificarCliente() {
-            // Obtener datos del formulario de modificación
-            const formData = $("#modificarForm").serialize();
-
-            // Llamada a la API para modificar el cliente
-            $.ajax({
-                type: "PUT",
-                url: `/clientes/${formData.dni}`,
-                data: formData,
-                success: function (data) {
-                    // Actualizar la lista después de modificar el cliente
-                    listar_clientes();
-
-                    // Limpiar el formulario después de la modificación
-                    $("#modificarForm")[0].reset();
-
-                    console.log(data.mensaje);
-                },
-                error: function (error) {
-                    console.error("Error al modificar el cliente:", error);
-                }
-            });
-        }
-
-        
-        
-
-        function generarListaHTML(clientes) {
-            // Generar el HTML para mostrar la lista de clientes
-            let html = "<ul>";
-
-            clientes.forEach(cliente => {
-                html += `<li>${cliente.nombre} ${cliente.apellido}</li>`;
-            });
-
-            html += "</ul>";
-
-            return html;
-        }
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../static/modificar.js"></script>
+   
 </body>
 
 </html>

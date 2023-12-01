@@ -1,10 +1,11 @@
 import mysql.connector
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 import mysql.connector
 from werkzeug.utils import secure_filename
-from flask_cors import CORS
 
-app = Flask(__name__)
+
+
 class Registro:
     registro = []
     def __init__(self, host, user, password, database):
@@ -52,19 +53,19 @@ class Registro:
         return True                                    
 
     def mostrar_clientes(self):
-        print("-"*40)
-        if not self.clientes:
+        print("-" * 40)
+        if not self.clientes:  # Debería ser self.clientes en lugar de solo clientes
             print("sin cliente")
         else:
             for cliente in self.listar_clientes():
-                print(f"Dni...........: {cliente['dni']}" )
-                print(f"Nombre........: {cliente['nombre']}" )
-                print(f"Apellido......: {cliente['apellido']}" )
-                print(f"Direccion.....: {cliente['direccion']}" )
-                print(f"Ciudad........: {cliente['ciudad']}" )
-                print(f"Cp............: {cliente['cp']}" )
-                print(f"Nacimiento....: {cliente['nacimiento']}" )
-                print("-"*40)
+                print(f"Dni...........: {cliente['dni']}")
+                print(f"Nombre........: {cliente['nombre']}")
+                print(f"Apellido......: {cliente['apellido']}")
+                print(f"Direccion.....: {cliente['direccion']}")
+                print(f"Ciudad........: {cliente['ciudad']}")
+                print(f"Cp............: {cliente['cp']}")
+                print(f"Nacimiento....: {cliente['nacimiento']}")
+                print("-" * 40)
             else:
                 print("Cliente no encontrado.")
 
@@ -73,6 +74,7 @@ class Registro:
         clientes = self.cursor.fetchall()
         print(f"Clientes obtenidos de la base de datos: {clientes}")
         return clientes
+
 
     def eliminar_cliente(self, dni):
         self.cursor.execute(f"DELETE FROM clientes WHERE dni = {dni}")
@@ -108,7 +110,8 @@ registro = Registro(host='localhost', user='root', password='', database='client
 
 # Crear la aplicación Flask fuera de la clase
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={r"/api/*": {"origins": "*"}}, allow_headers="*")
+
 
 @app.route("/clientes", methods=["GET"])
 def listar_clientes():
@@ -120,26 +123,7 @@ def listar_clientes():
         print(f"Error al obtener clientes: {e}")
         return jsonify({"error": str(e)}), 500
 
-# @app.route("/clientes", methods=["POST"])
-# def agregar_cliente():
-#     try:
-#         data = request.get_json()
-#         dni = data['dni']
-#         nombre = data['nombre']
-#         apellido = data['apellido']
-#         direccion = data['direccion']
-#         ciudad = data['ciudad']  
-#         cp = data['cp']
-#         nacimiento = data['nacimiento']
 
-#         if registro.agregar_cliente(dni, nombre, apellido, direccion, ciudad, cp, nacimiento):
-#             return jsonify({"mensaje": "Cliente agregado"}), 201
-#         else:
-#             return jsonify({"mensaje": "Cliente ya existe"}), 400
-
-#     except Exception as e:
-#         print(f"Error: {e}")
-#         return jsonify({"error": str(e)}), 400
 @app.route("/clientes", methods=["POST"])
 def agregar_cliente():
     try:
@@ -193,5 +177,7 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
+
+
 if __name__ == "__main__":
     app.run(debug=True)

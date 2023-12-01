@@ -1,0 +1,30 @@
+/* Ajusta los estilos según tus preferencias */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    margin: 20px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Añade estilos oscuros si es necesario para el modo oscuro */
+.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
