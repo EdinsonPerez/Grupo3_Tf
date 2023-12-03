@@ -1,46 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modificar Registro</title>
-
-    <!-- Enlaces a Bootstrap y otros estilos si es necesario -->
-
-    <link rel="stylesheet" href="../static/listado.css"> <!-- Ajusta la ruta según tu estructura de archivos -->
-</head>
-
-<body>
-    <nav>
-        <!-- Coloca tu barra de navegación si la tienes -->
-    </nav>
-
+    <title>Listado</title>
     
+    <link rel="stylesheet" href="../static/listado.css"> <!-- Ajusta la ruta según tu estructura de archivos -->
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <a href="./index.html">
+                <img src="../static/imagen/goodSale-logoB-01.png" alt="Logo">
+            </a>
+            <h1>Un mundo por descubrir</h1>
+        </div>
+        <div class="burger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="./index.html">Inicio</a></li>
+            <li><a href="./sobrenosotros.html">Sobre Nosotros</a></li>
+            <li><a href="./servicios.html">Servicios</a></li>
+            <li><a href="./registro.html">Regístrese</a></li>
+            <li><a href="./sucursales.html">Sucursales</a></li>
+            <li><a href="./admin-inicio.html">Admin</a></li>
+        </ul>
+    </nav>
+    <!-- Botón para mostrar el formulario de consulta -->
+    <button onclick="mostrarFormularioConsulta()">Consultar Cliente</button>
+
+    <!-- Formulario para consultar cliente -->
+    <form id="formulario-consulta" style="display: none;">
+        <label for="dniConsulta">DNI:</label>
+        <input type="text" id="dniConsulta" name="dniConsulta" placeholder="Ingrese el DNI a consultar...">
+        <button type="button" onclick="consultarCliente()">Consultar</button>
+    </form>
 
     <div class="container">
-        <h2>Modificar Registro</h2>
-        <form id="formulario-modificar">
-            <label for="dni">DNI:</label>
-            <input type="text" id="dni" name="dni" placeholder="Ingrese el DNI a modificar...">
-            <label for="direccion">Nueva Dirección:</label>
-            <input type="text" id="direccion" name="direccion" placeholder="Ingrese la nueva dirección...">
-            <label for="ciudad">Nueva Ciudad:</label>
-            <input type="text" id="ciudad" name="ciudad" placeholder="Ingrese la nueva ciudad...">
-            <label for="cp">Nuevo Código Postal:</label>
-            <input type="text" id="cp" name="cp" placeholder="Ingrese el nuevo código postal...">
-            <button type="submit">Modificar Registro</button>
-        </form>
-        <div id="resultado-modificacion"></div>
+        <h2>DNI CONSULTADO</h2>
+        <table id="tabla-registros">
+            <thead>
+                <tr>
+                    <th>DNI</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Dirección</th>
+                    <th>Ciudad</th>
+                    <th>Código Postal</th>
+                    <th>Nacimiento</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-tabla-registros"></tbody>
+        </table>
     </div>
 
-    <footer>
-        <!-- Coloca tu pie de página si lo tienes -->
-    </footer>
+
+    <!-- Mostrar detalles del cliente aquí -->
+    <div id="detallesCliente" style="display: none;">
+        <h3>Detalles del Cliente</h3>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" disabled>
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" disabled>
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion" disabled>
+        <button type="button" onclick="habilitarEdicion()">Modificar</button>
+    </div>
+
+    <!-- Coloca tu pie de página si lo tienes -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/modificar.js"></script>
-   
-</body>
 
+</body>
 </html>

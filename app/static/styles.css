@@ -158,6 +158,29 @@ nav {
   box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.25);
 }
 
+div{
+  text-align: center;
+
+}
+.cont {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  background-color: lightblue;
+  padding: 10px;
+  border-bottom-width: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  
+}
+
+table{
+  padding: 50px;
+  margin: 0 auto;  
+}
+
+
+
 /*Resposive*/
 
 @media screen and (max-width: 768px) {

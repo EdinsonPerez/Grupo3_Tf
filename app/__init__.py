@@ -74,6 +74,20 @@ class Registro:
         clientes = self.cursor.fetchall()
         print(f"Clientes obtenidos de la base de datos: {clientes}")
         return clientes
+    
+    
+    def listar_clientes_by_dni(self, dni=None):
+        if dni is not None:
+            query = "SELECT * FROM clientes WHERE dni = %s"
+            self.cursor.execute(query, (dni,))
+        else:
+            query = "SELECT * FROM clientes"
+            self.cursor.execute(query)
+
+        clientes = self.cursor.fetchall()
+        print(f"Clientes obtenidos de la base de datos: {clientes}")
+        return clientes
+
 
 
     def eliminar_cliente(self, dni):
@@ -123,6 +137,16 @@ def listar_clientes():
         print(f"Error al obtener clientes: {e}")
         return jsonify({"error": str(e)}), 500
 
+@app.route("/clientes/<int:dni>", methods=["GET"])
+def listar_cliente_by_dni(dni):
+    try:
+        # Puedes acceder directamente al valor del DNI en la variable 'dni'
+        clientes = registro.listar_clientes_by_dni(dni)
+        print(f"Clientes obtenidos de la base de datos para DNI {dni}: {clientes}")
+        return jsonify({"clientes": clientes})
+    except Exception as e:
+        print(f"Error al obtener clientes: {e}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/clientes", methods=["POST"])
 def agregar_cliente():
