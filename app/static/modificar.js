@@ -29,9 +29,14 @@ function consultarCliente() {
     .catch(error => console.error('Error:', error));
 }
 
+// Valores originales del cliente al mostrar.
+var clienteActual = null;
+
 function mostrarDetallesCliente(cliente) {
     // Limpiar la tabla antes de agregar nuevos datos
     document.getElementById("cuerpo-tabla-registros").innerHTML = "";
+
+    clienteActual = cliente;
 
     // Iterar sobre los detalles del cliente y agregarlos a la tabla
     for (var i = 0; i < cliente.length; i++) {
@@ -61,9 +66,17 @@ function mostrarDetallesCliente(cliente) {
 }
 
 function guardarCambios(dni) {
-    var direccion = document.getElementById("direccion").innerText;
-    var ciudad = document.getElementById("ciudad").innerText;
-    var cp = document.getElementById("cp").innerText;
+    var direccionNueva = document.getElementById("direccion").innerText;
+    var ciudadNueva = document.getElementById("ciudad").innerText;
+    var cpNuevo = document.getElementById("cp").innerText;
+
+    // Encuentra el cliente actual por su DNI
+    var clienteModificado = clienteActual.find(cliente => cliente.dni === dni);
+
+    // Actualiza los valores modificados
+    clienteModificado.direccion = direccionNueva;
+    clienteModificado.ciudad = ciudadNueva;
+    clienteModificado.cp = cpNuevo;
 
     // Realizar el POST con los cambios al servidor
     fetch(`http://127.0.0.1:5000/clientes/${dni}`, {
@@ -72,11 +85,12 @@ function guardarCambios(dni) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            direccion: direccion,
-            ciu: ciudad,
-            cp: cp
+            direccion: direccionNueva,
+            ciu: ciudadNueva, 
+            cp: cpNuevo
         })
     })
+    
     .then(response => response.json())
     .then(data => {
         // Manejar los datos devueltos si es necesario

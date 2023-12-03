@@ -95,14 +95,11 @@ class Registro:
         self.conn.commit()
         return self.cursor.rowcount > 0
 
-    def modificar_cliente(self, dni, nom, ape, dire, ciu, cp, nac):
+    def modificar_cliente(self, dni, dire, ciu, cp,):
         sql = f"UPDATE clientes SET \
-                nombre = '{nom}',\
-                apellido = '{ape}',\
                 direccion = '{dire}',\
                 ciudad = '{ciu}',\
-                cp = {cp},\
-                nacimiento = {nac}\
+                cp = {cp}\
                 WHERE dni = {dni}"
         self.cursor.execute(sql)
         self.conn.commit()
