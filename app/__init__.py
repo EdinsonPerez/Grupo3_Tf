@@ -168,31 +168,59 @@ def agregar_cliente():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({"error": str(e)}), 400
-
-
-@app.route("/clientes/<int:dni>", methods=["PUT"])
+    
+@app.route("/clientes/<int:dni>", methods=["POST"])
 def modificar_cliente(dni):
-    datos = request.form
-    nueva_direccion = datos.get("direccion")
-    nueva_ciudad = datos.get("ciudad")  
-    nuevo_cp = datos.get("cp")
+    try:
+        datos = request.get_json()
+        nueva_direccion = datos.get("direccion")
+        nueva_ciudad = datos.get("ciu")
+        nuevo_cp = datos.get("cp")
 
-    if registro.modificar_cliente(dni, nueva_direccion, nueva_ciudad, nuevo_cp):
-        return jsonify({"mensaje": "Cliente modificado"}), 200
-    else:
-        return jsonify({"mensaje": "Cliente no encontrado"}), 404
+        if registro.modificar_cliente(dni, nueva_direccion, nueva_ciudad, nuevo_cp):
+            return jsonify({"mensaje": "Cliente modificado"}), 200
+        else:
+            return jsonify({"mensaje": "Cliente no encontrado"}), 404
+    except Exception as e:
+        print(f"Error al modificar cliente: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+
+# @app.route("/clientes/<int:dni>", methods=["PUT"])
+# def modificar_cliente(dni):
+#     try:
+#         datos = request.get_json()
+#         nueva_direccion = datos.get("direccion")
+#         nueva_ciudad = datos.get("ciu")
+#         nuevo_cp = datos.get("cp")
+
+#         if registro.modificar_cliente(dni, nueva_direccion, nueva_ciudad, nuevo_cp):
+#             return jsonify({"mensaje": "Cliente modificado"}), 200
+#         else:
+#             return jsonify({"mensaje": "Cliente no encontrado"}), 404
+#     except Exception as e:
+#         print(f"Error al modificar cliente: {e}")
+#         return jsonify({"error": str(e)}), 500
+
+
 
     
 @app.route("/clientes/<int:dni>", methods=["DELETE"])
 def eliminar_cliente(dni):
-    cliente = registro.consultar_cliente(dni)
-    if cliente:
-        if registro.eliminar_cliente(dni):
-            return jsonify({"mensaje": "Cliente eliminado"}), 200
+    try:
+        cliente = registro.consultar_cliente(dni)
+        if cliente:
+            if registro.eliminar_cliente(dni):
+                return jsonify({"mensaje": "Cliente eliminado"}), 200
+            else:
+                return jsonify({"mensaje": "Error al eliminar el cliente"}), 500
         else:
-            return jsonify({"mensaje": "Error al eliminar el cliente"}), 500
-    else:
-        return jsonify({"mensaje": "Cliente no encontrado"}), 404
+            return jsonify({"mensaje": "Cliente no encontrado"}), 404
+    except Exception as e:
+        print(f"Error al eliminar cliente: {e}")
+        return jsonify({"error": str(e)}), 500
+
 #--------------------------------------------------------------------
 # registro.agregar_cliente(92154, "ana", "lopez", "costanera", "matanza", 1704, 120509) 
 @app.after_request

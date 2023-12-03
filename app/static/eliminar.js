@@ -45,6 +45,7 @@ function mostrarDetallesCliente(cliente) {
         var cell6 = row.insertCell(5);
         var cell7 = row.insertCell(6);
         var cell8 = row.insertCell(7);
+        var cell9 = row.insertCell(8);  // Add a new cell for the "Eliminar Cliente" button
 
         cell1.innerHTML = cliente[i].dni;
         cell2.innerHTML = cliente[i].nombre;
@@ -53,34 +54,28 @@ function mostrarDetallesCliente(cliente) {
         cell5.innerHTML = `<div contenteditable="true" id="ciudad">${cliente[i].ciudad}</div>`;
         cell6.innerHTML = `<div contenteditable="true" id="cp">${cliente[i].cp}</div>`;
         cell7.innerHTML = cliente[i].nacimiento;
-        cell8.innerHTML = `<button onclick="guardarCambios(${cliente[i].dni})">Guardar Cambios</button>`;
+        cell8.innerHTML = `<button onclick="eliminarCliente(${cliente[i].dni})">Eliminar Cliente</button>`;
+        cell9.innerHTML = '';  // Remove the "Guardar Cambios" button
     }
 
     // Mostrar la sección de detallesCliente
     document.getElementById("detallesCliente").style.display = "block";
 }
 
-function guardarCambios(dni) {
-    var direccion = document.getElementById("direccion").innerText;
-    var ciudad = document.getElementById("ciudad").innerText;
-    var cp = document.getElementById("cp").innerText;
-
-    // Realizar el POST con los cambios al servidor
+function eliminarCliente(dni) {
+    // Realizar la solicitud al servidor para eliminar el cliente
     fetch(`http://127.0.0.1:5000/clientes/${dni}`, {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            direccion: direccion,
-            ciu: ciudad,
-            cp: cp
-        })
     })
     .then(response => response.json())
     .then(data => {
-        // Manejar los datos devueltos si es necesario
+        // Manejar los datos devueltos
         console.log(data);
+        // Mostrar mensaje de eliminación satisfactoria
+        alert("Cliente eliminado satisfactoriamente.");
     })
     .catch(error => console.error('Error:', error));
 }
