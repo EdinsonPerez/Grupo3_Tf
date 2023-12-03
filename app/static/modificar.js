@@ -29,8 +29,6 @@ function consultarCliente() {
     .catch(error => console.error('Error:', error));
 }
 
-
-
 function mostrarDetallesCliente(cliente) {
     // Limpiar la tabla antes de agregar nuevos datos
     document.getElementById("cuerpo-tabla-registros").innerHTML = "";
@@ -46,19 +44,41 @@ function mostrarDetallesCliente(cliente) {
         var cell5 = row.insertCell(4);
         var cell6 = row.insertCell(5);
         var cell7 = row.insertCell(6);
+        var cell8 = row.insertCell(7);
 
         cell1.innerHTML = cliente[i].dni;
         cell2.innerHTML = cliente[i].nombre;
         cell3.innerHTML = cliente[i].apellido;
-        cell4.innerHTML = cliente[i].direccion;
-        cell5.innerHTML = cliente[i].ciudad;
-        cell6.innerHTML = cliente[i].cp;
+        cell4.innerHTML = `<div contenteditable="true" id="direccion">${cliente[i].direccion}</div>`;
+        cell5.innerHTML = `<div contenteditable="true" id="ciudad">${cliente[i].ciudad}</div>`;
+        cell6.innerHTML = `<div contenteditable="true" id="cp">${cliente[i].cp}</div>`;
         cell7.innerHTML = cliente[i].nacimiento;
+        cell8.innerHTML = `<button onclick="guardarCambios(${cliente[i].dni})">Guardar Cambios</button>`;
     }
 
     // Mostrar la sección de detallesCliente
     document.getElementById("detallesCliente").style.display = "block";
-
-    // Mostrar la sección de detallesCliente
-    detallesCliente.style.display = "block";
 }
+
+function guardarCambios(dni) {
+    var direccion = document.getElementById("direccion").innerText;
+    var ciudad = document.getElementById("ciudad").innerText;
+    var cp = document.getElementById("cp").innerText;
+
+    // Realizar el POST con los cambios al servidor
+    fetch(`http://127.0.0.1:5000/clientes/${dni}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `direccion=${direccion}&ciudad=${ciudad}&cp=${cp}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Manejar los datos devueltos si es necesario
+        console.log(data);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
