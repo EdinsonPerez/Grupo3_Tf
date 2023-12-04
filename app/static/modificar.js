@@ -90,11 +90,16 @@ function guardarCambios(dni) {
             cp: cpNuevo
         })
     })
-    
     .then(response => response.json())
     .then(data => {
         // Manejar los datos devueltos si es necesario
         console.log(data);
+        // Mostrar mensaje de alerta
+        alert('Cambios guardados satisfactoriamente.');
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        console.error('Error:', error);
+        // Mostrar mensaje de alerta en caso de error
+        alert('Error al guardar cambios. Por favor, inténtalo de nuevo.');
+    });
 }
