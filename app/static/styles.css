@@ -432,12 +432,14 @@ footer {
   bottom: 0;
   padding: 10px; /* Reduce el padding superior e inferior */
   height: 60px; /* Define la altura de la franja */
+  z-index: 9999;
 }
 #card-container {
   margin-block: 50px; /* Ajusta este valor según tu preferencia para mover las tarjetas más arriba */
 }
 .redsoc{
   font-size: 20px;
+  color: white;
 }
 
 footer {
@@ -461,6 +463,36 @@ button#prevPage, button#nextPage {
 button#prevPage:disabled, button#nextPage:disabled {
   background-color: #ccc; 
   cursor: not-allowed;
+}
+
+/* Estilos Regitrese*/
+
+.carousel-caption {
+  color: lightblue;
+  font-weight: bold;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.btn-agregar-registro {
+  width: auto; 
+  max-width: 200px; 
+  margin: 0 auto; 
+}
+
+
+/* Estilos Sucursales*/
+.contentSucursales {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+.sucursal {
+margin: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
 }
 
 /* Estilos para el modo claro  y oscuro*/
